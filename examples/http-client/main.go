@@ -15,8 +15,12 @@ import (
 	endpoint by using default IAM user. We are using plain http
 	client to connect with the endpoint.
 
-	Set your endpoint on env variable named `ES_ENDPOINT` before
-	running the example.
+	Set env variable named `ES_ENDPOINT` before running the
+	example. The value of `ES_ENDPOINT` is endpoint of your
+	elasticsearch domain.
+
+	Example value of `ES_ENDPOINT`:
+	https://this-is-sample-domain.eu-west-1.es.amazonaws.com
 */
 
 const envKeyESEndpoint = "ES_ENDPOINT"

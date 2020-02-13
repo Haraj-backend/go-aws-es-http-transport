@@ -6,6 +6,7 @@ import (
 	"net/http"
 	"time"
 
+	"github.com/aws/aws-sdk-go/aws/ec2metadata"
 	"github.com/aws/aws-sdk-go/aws/session"
 	v4 "github.com/aws/aws-sdk-go/aws/signer/v4"
 )
@@ -19,9 +20,15 @@ type AWSESTransport struct {
 
 // NewAWSESTransport returns new instance of AWSESTransport
 func NewAWSESTransport(sess *session.Session) *AWSESTransport {
+	region := *sess.Config.Region
+	if len(region) == 0 {
+		// try to resolve region from metadata service
+		meta := ec2metadata.New(sess)
+		region, _ = meta.Region()
+	}
 	return &AWSESTransport{
 		signer: v4.NewSigner(sess.Config.Credentials),
-		region: *sess.Config.Region,
+		region: region,
 	}
 }
 
